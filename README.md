@@ -80,7 +80,7 @@ To-Do list:
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:include-dir-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:include-dir-kotlin:0.1.0")
 }
 ```
 
