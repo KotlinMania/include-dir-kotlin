@@ -275,11 +275,18 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.9.0")
+                implementation("io.github.kotlinmania:glob-kotlin:0.1.0")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation("io.github.kotlinmania:glob-kotlin-android:0.1.0")
             }
         }
 
@@ -439,6 +446,8 @@ dependencies {
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.8.0")
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.4.0")
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-io-core-jvm:0.9.0")
+    codeqlSourceClasspath("io.github.kotlinmania:glob-kotlin-jvm:0.1.0")
+    codeqlAndroidAar("io.github.kotlinmania:glob-kotlin-android:0.1.0")
 }
 
 val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
