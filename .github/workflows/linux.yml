@@ -30,9 +30,12 @@ jobs:
         # on x64 hosts (no test execution — needs an arm64 runner or qemu).
         run: >
           ./gradlew
+          jvmTest
           compileKotlinLinuxX64
           compileKotlinLinuxArm64
           linuxX64Test
+          linuxArm64TestBinaries
+          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (Linux)

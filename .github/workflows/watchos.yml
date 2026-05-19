@@ -32,7 +32,11 @@ jobs:
           compileKotlinWatchosArm64
           compileKotlinWatchosDeviceArm64
           compileKotlinWatchosSimulatorArm64
+          watchosArm32TestBinaries
+          watchosArm64TestBinaries
+          watchosDeviceArm64TestBinaries
           watchosSimulatorArm64Test
+          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (watchOS)

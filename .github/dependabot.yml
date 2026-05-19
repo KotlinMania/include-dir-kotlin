@@ -6,7 +6,7 @@
 #
 #   1. Gradle — kotlin-multiplatform plugin, kotlin-serialization plugin,
 #      android-kotlin-multiplatform-library plugin, vanniktech maven-publish,
-#      and the kotlinx-{coroutines,serialization,datetime,collections-immutable}
+#      and the kotlinx-{coroutines,serialization,datetime,collections-immutable,io}
 #      runtime dependencies declared in build.gradle.kts.
 #
 #   2. GitHub Actions — the actions pinned across the workflow files in

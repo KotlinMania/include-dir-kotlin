@@ -1,8 +1,5 @@
 // port-lint: ignore
-// Smoke tests for the ported data types. The upstream Rust integration test
-// (tests/integration_test.rs) relies on the include_dir!() procedural macro,
-// which is not yet ported; this test instead constructs a [Dir] tree by hand
-// and exercises the lookup, iteration and serialization surface.
+// Additional smoke tests for the ported data types.
 package io.github.kotlinmania.includedir
 
 import kotlin.test.Test
