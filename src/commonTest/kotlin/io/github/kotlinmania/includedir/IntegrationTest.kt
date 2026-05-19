@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-private val PARENT_DIR = Dir(
+internal val parentDir = Dir(
     "",
     listOf(
         DirEntry.File(File("Cargo.toml", "rust-version = \"1.64\"\n".encodeToByteArray())),
@@ -44,8 +44,8 @@ class IntegrationTest {
             "tests/integration_test.rs",
         )
 
-        validateIncluded(PARENT_DIR, root)
-        assertTrue(PARENT_DIR.contains("src/lib.rs"))
+        validateIncluded(parentDir, root)
+        assertTrue(parentDir.contains("src/lib.rs"))
     }
 
     @Test
@@ -54,9 +54,9 @@ class IntegrationTest {
         removeExtracted(root)
         SystemFileSystem.createDirectories(root)
 
-        PARENT_DIR.extract(root)
+        parentDir.extract(root)
 
-        validateExtracted(PARENT_DIR, root)
+        validateExtracted(parentDir, root)
         assertEquals(
             "pub use crate::dir::Dir;\n",
             SystemFileSystem.source(Path(root.toString(), "src/lib.rs")).buffered().use { it.readString() },
@@ -64,7 +64,7 @@ class IntegrationTest {
     }
 }
 
-private fun validateIncluded(dir: Dir, paths: List<String>) {
+internal fun validateIncluded(dir: Dir, paths: List<String>) {
     for (entry in paths) {
         assertTrue(dir.contains(entry), "Can't find $entry")
 

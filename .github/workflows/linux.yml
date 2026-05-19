@@ -34,6 +34,8 @@ jobs:
           compileKotlinLinuxX64
           compileKotlinLinuxArm64
           linuxX64Test
+          linuxArm64TestBinaries
+          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (Linux)

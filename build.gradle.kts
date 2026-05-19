@@ -3,6 +3,7 @@ import java.net.URI
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import java.util.zip.ZipInputStream
+import javax.xml.parsers.DocumentBuilderFactory
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.ClasspathNormalizer
 import org.gradle.api.tasks.PathSensitivity
@@ -304,6 +305,12 @@ tasks.withType<AbstractTestTask>().configureEach {
     }
 }
 
+listOf("jsBrowserTest", "wasmJsBrowserTest").forEach { taskName ->
+    tasks.named<AbstractTestTask>(taskName) {
+        filter.excludeTestsMatching("io.github.kotlinmania.includedir.IntegrationTest.extractAllFiles*")
+    }
+}
+
 rootProject.extensions.configure<NodeJsEnvSpec>("kotlinNodeJsSpec") {
     version.set("24.15.0")
 }
@@ -534,6 +541,55 @@ tasks.register("test") {
     )
 
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
+val verifyNonEmptyTestResults = tasks.register("verifyNonEmptyTestResults") {
+    group = "verification"
+    description = "Fails when no executed tests are present in build/test-results JUnit XML."
+
+    val testResultsDirectory = layout.buildDirectory.dir("test-results")
+    inputs.dir(testResultsDirectory).optional()
+
+    doLast {
+        val resultDir = testResultsDirectory.get().asFile
+        val resultFiles = if (resultDir.exists()) {
+            resultDir.walkTopDown()
+                .filter { it.isFile && it.name.startsWith("TEST-") && it.extension == "xml" }
+                .toList()
+        } else {
+            emptyList()
+        }
+        if (resultFiles.isEmpty()) {
+            throw GradleException(
+                "No JUnit XML test result files found under $resultDir. " +
+                    "Run at least one real test task before verifyNonEmptyTestResults.",
+            )
+        }
+
+        val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val totalTests = resultFiles.sumOf { file ->
+            documentBuilder.parse(file).documentElement.getAttribute("tests").toIntOrNull() ?: 0
+        }
+        if (totalTests == 0) {
+            throw GradleException(
+                "JUnit XML exists under $resultDir, but it reports zero executed tests " +
+                    "across ${resultFiles.size} files.",
+            )
+        }
+
+        println("verifyNonEmptyTestResults: found $totalTests tests across ${resultFiles.size} JUnit XML files.")
+    }
+}
+
+verifyNonEmptyTestResults.configure {
+    mustRunAfter(
+        tasks.matching {
+            it.name.endsWith("Test") ||
+                it.name == "testAndroidHostTest" ||
+                it.name == "testAndroid" ||
+                it.name == "allTests"
+        },
+    )
 }
 
 val jsYarnLockBuildTasks = listOf(

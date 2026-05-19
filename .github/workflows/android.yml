@@ -36,6 +36,7 @@ jobs:
           testAndroidHostTest
           assembleUnitTest
           assembleAndroidTest
+          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (Android)
