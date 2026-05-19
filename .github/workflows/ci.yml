@@ -1,6 +1,10 @@
 name: CI
 
 on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
 
 # Least-privilege default for any inline job in this file. The reusable
@@ -19,10 +23,10 @@ permissions:
 # CodeQL workflows live in .github/workflows/codeql.yml and are NOT invoked
 # from here — they have their own trigger and run independently.
 #
-# Branch trigger is `main` only. The previous shape `[main, master]` would
+# Branch triggers are `main` only. The previous shape `[main, master]` would
 # fire CI on any branch literally named `master`, which is a workflow-content
-# trust escalation since GitHub Actions runs the workflow file from the
-# branch being pushed to.
+# trust escalation since GitHub Actions runs the workflow file from the branch
+# being pushed to.
 
 # Each `uses:` job below declares its own `permissions:` block. For a job
 # that calls a reusable workflow, the permissions value sets a CEILING on
