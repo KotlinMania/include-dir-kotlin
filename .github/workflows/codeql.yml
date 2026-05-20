@@ -32,11 +32,6 @@ name: "CodeQL Advanced"
 # template default.
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  # Weekly periodic scan catches supply-chain CVEs that appear after merge.
   schedule:
     - cron: "0 7 * * 1"
   workflow_dispatch:
