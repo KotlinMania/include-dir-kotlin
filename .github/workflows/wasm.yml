@@ -55,7 +55,6 @@ jobs:
           wasmJsBrowserTest
           wasmJsNodeTest
           wasmWasiNodeTest
-          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (WASM)

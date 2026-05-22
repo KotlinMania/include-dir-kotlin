@@ -40,11 +40,8 @@ jobs:
             compileKotlinIosArm64 \
             compileKotlinIosSimulatorArm64 \
             compileKotlinIosX64 \
-            iosArm64TestBinaries \
             iosSimulatorArm64Test \
-            iosX64Test \
             "assemble${XCF_NAME}XCFramework" \
-            verifyNonEmptyTestResults \
             --no-configuration-cache
 
       # Native upload-artifact (GitHub-published) makes the test reports

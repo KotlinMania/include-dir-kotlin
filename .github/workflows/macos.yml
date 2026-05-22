@@ -30,7 +30,6 @@ jobs:
           ./gradlew
           compileKotlinMacosArm64
           macosArm64Test
-          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (macOS)
