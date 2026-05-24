@@ -1,6 +1,5 @@
 {
   "type": "port",
-  "parity_mode": false,
   "name": "include-dir-kotlin",
   "source": {
     "path": "tmp/include_dir/src",
