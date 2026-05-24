@@ -84,7 +84,7 @@ class DataTypesTest {
     @Test
     fun withMetadataAttachesMetadataWithoutMutating() {
         val original = File("a.txt", "x".encodeToByteArray())
-        val md = Metadata(1.seconds, 2.seconds, 3.seconds)
+        val md = Metadata.new(1.seconds, 2.seconds, 3.seconds)
         val updated = original.withMetadata(md)
         assertNull(original.metadata)
         assertEquals(md, updated.metadata)
@@ -106,9 +106,9 @@ class DataTypesTest {
 
     @Test
     fun metadataConvertsDurationsRelativeToEpoch() {
-        val md = Metadata(10.seconds, 20.seconds, 30.seconds)
-        assertEquals(10L, md.accessed.epochSeconds)
-        assertEquals(20L, md.created.epochSeconds)
-        assertEquals(30L, md.modified.epochSeconds)
+        val md = Metadata.new(10.seconds, 20.seconds, 30.seconds)
+        assertEquals(10L, md.accessed().epochSeconds)
+        assertEquals(20L, md.created().epochSeconds)
+        assertEquals(30L, md.modified().epochSeconds)
     }
 }
