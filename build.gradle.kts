@@ -200,10 +200,18 @@ kotlin {
         binaries.framework { baseName = "IncludeDir"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "IncludeDir"; xcf.add(this) }
+        binaries.framework {
+            baseName = "IncludeDir"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "IncludeDir"; xcf.add(this) }
+        binaries.framework {
+            baseName = "IncludeDir"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
