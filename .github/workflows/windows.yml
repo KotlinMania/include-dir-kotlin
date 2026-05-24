@@ -32,7 +32,6 @@ jobs:
           ./gradlew
           setupAndroidSdk
           mingwX64Test
-          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (Windows)

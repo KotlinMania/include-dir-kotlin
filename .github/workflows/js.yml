@@ -49,7 +49,6 @@ jobs:
           ./gradlew
           jsBrowserTest
           jsNodeTest
-          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (JS)

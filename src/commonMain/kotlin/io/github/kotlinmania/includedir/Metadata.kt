@@ -6,31 +6,34 @@ import kotlin.time.Instant
 
 /**
  * Basic metadata for a file.
- *
- * Upstream Rust derived `Debug, Copy, Clone, PartialEq, Eq` on this type.
  */
 data class Metadata(
-    /** Time the file was last accessed, as an [Instant] since the unix epoch. */
-    val accessed: Instant,
-    /** Time the file was created, as an [Instant] since the unix epoch. */
-    val created: Instant,
-    /** Time the file was last modified, as an [Instant] since the unix epoch. */
-    val modified: Instant,
+    private val accessedSinceEpoch: Duration,
+    private val createdSinceEpoch: Duration,
+    private val modifiedSinceEpoch: Duration,
 ) {
     /**
-     * Create a new [Metadata] using the [Duration] elapsed since the unix epoch.
+     * Get the time this file was last accessed.
      */
-    constructor(
-        accessed: Duration,
-        created: Duration,
-        modified: Duration,
-    ) : this(
-        EPOCH + accessed,
-        EPOCH + created,
-        EPOCH + modified,
-    )
+    fun accessed(): Instant = EPOCH + accessedSinceEpoch
 
-    private companion object {
+    /**
+     * Get the time this file was created.
+     */
+    fun created(): Instant = EPOCH + createdSinceEpoch
+
+    /**
+     * Get the time this file was last modified.
+     */
+    fun modified(): Instant = EPOCH + modifiedSinceEpoch
+
+    companion object {
         private val EPOCH: Instant = Instant.fromEpochSeconds(0L)
+
+        /**
+         * Create a new [Metadata] using the number of seconds since the Unix epoch.
+         */
+        fun new(accessed: Duration, created: Duration, modified: Duration): Metadata =
+            Metadata(accessed, created, modified)
     }
 }

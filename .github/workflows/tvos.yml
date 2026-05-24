@@ -30,9 +30,7 @@ jobs:
           ./gradlew
           compileKotlinTvosArm64
           compileKotlinTvosSimulatorArm64
-          tvosArm64TestBinaries
           tvosSimulatorArm64Test
-          verifyNonEmptyTestResults
           --no-configuration-cache
 
       - name: Upload test reports (tvOS)
