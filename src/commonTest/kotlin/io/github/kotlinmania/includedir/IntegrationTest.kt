@@ -10,39 +10,41 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-internal val parentDir = Dir(
-    "",
-    listOf(
-        DirEntry.File(File("Cargo.toml", "rust-version = \"1.64\"\n".encodeToByteArray())),
-        DirEntry.Dir(
-            Dir(
-                "src",
-                listOf(
-                    DirEntry.File(File("src/lib.rs", "pub use crate::dir::Dir;\n".encodeToByteArray())),
+internal val parentDir =
+    Dir(
+        "",
+        listOf(
+            DirEntry.File(File("Cargo.toml", "rust-version = \"1.64\"\n".encodeToByteArray())),
+            DirEntry.Dir(
+                Dir(
+                    "src",
+                    listOf(
+                        DirEntry.File(File("src/lib.rs", "pub use crate::dir::Dir;\n".encodeToByteArray())),
+                    ),
+                ),
+            ),
+            DirEntry.Dir(
+                Dir(
+                    "tests",
+                    listOf(
+                        DirEntry.File(File("tests/integration_test.rs", "use include_dir::{include_dir, Dir};\n".encodeToByteArray())),
+                    ),
                 ),
             ),
         ),
-        DirEntry.Dir(
-            Dir(
-                "tests",
-                listOf(
-                    DirEntry.File(File("tests/integration_test.rs", "use include_dir::{include_dir, Dir};\n".encodeToByteArray())),
-                ),
-            ),
-        ),
-    ),
-)
+    )
 
 class IntegrationTest {
     @Test
     fun includedAllFilesInTheIncludeDirCrate() {
-        val root = listOf(
-            "Cargo.toml",
-            "src",
-            "src/lib.rs",
-            "tests",
-            "tests/integration_test.rs",
-        )
+        val root =
+            listOf(
+                "Cargo.toml",
+                "src",
+                "src/lib.rs",
+                "tests",
+                "tests/integration_test.rs",
+            )
 
         validateIncluded(parentDir, root)
         assertTrue(parentDir.contains("src/lib.rs"))
