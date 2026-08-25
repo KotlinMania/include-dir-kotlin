@@ -1,4 +1,4 @@
-// port-lint: ignore
+// port-lint: tests tests/integration_test.rs
 // Additional smoke tests for the ported data types.
 package io.github.kotlinmania.includedir
 
@@ -110,5 +110,15 @@ class DataTypesTest {
         assertEquals(10L, md.accessed().epochSeconds)
         assertEquals(20L, md.created().epochSeconds)
         assertEquals(30L, md.modified().epochSeconds)
+    }
+
+    @Test
+    fun globFindMatchesExpectedPatterns() {
+        val root = sampleTree()
+        val matchedFiles = root.find("**/*.rs").map { it.path() }.toList()
+        assertEquals(listOf("src/lib.rs"), matchedFiles)
+
+        val allMd = root.find("*.md").map { it.path() }.toList()
+        assertEquals(listOf("README.md"), allMd)
     }
 }

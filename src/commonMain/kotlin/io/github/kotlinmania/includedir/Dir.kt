@@ -1,4 +1,4 @@
-// port-lint: source src/dir.rs
+// port-lint: source dir.rs
 package io.github.kotlinmania.includedir
 
 import kotlinx.io.buffered
@@ -8,18 +8,20 @@ import kotlinx.io.write
 
 /**
  * A directory.
- *
- * Upstream Rust derived `Debug, Clone, PartialEq` on this type.
  */
 data class Dir(
+    val path: String,
+    val entries: List<DirEntry>,
+) {
     /**
      * The full path for this [Dir], relative to the directory passed to
      * the embedding entry point.
      */
-    val path: String,
+    fun path(): String = path
+
     /** The entries within this [Dir]. */
-    val entries: List<DirEntry>,
-) {
+    fun entries(): List<DirEntry> = entries
+
     /** Get a list of the files in this directory. */
     fun files(): Sequence<File> =
         entries.asSequence().mapNotNull { it.asFile() }
@@ -78,5 +80,10 @@ data class Dir(
                 }
             }
         }
+    }
+
+    companion object {
+        /** Create a new [Dir]. */
+        fun new(path: String, entries: List<DirEntry>): Dir = Dir(path, entries)
     }
 }

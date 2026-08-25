@@ -1,10 +1,8 @@
-// port-lint: source src/dir_entry.rs
+// port-lint: source dir_entry.rs
 package io.github.kotlinmania.includedir
 
 /**
- * A directory entry, the embedded analogue of a filesystem directory entry.
- *
- * Upstream Rust derived `Debug, Clone, PartialEq` on this type.
+ * A directory entry, roughly analogous to a filesystem directory entry.
  */
 sealed class DirEntry {
     /** A directory. */
@@ -20,8 +18,8 @@ sealed class DirEntry {
     /** The [DirEntry]'s full path. */
     fun path(): String =
         when (this) {
-            is Dir -> value.path
-            is File -> value.path
+            is Dir -> value.path()
+            is File -> value.path()
         }
 
     /** Try to get this as a [Dir][io.github.kotlinmania.includedir.Dir], if it is one. */
@@ -33,7 +31,7 @@ sealed class DirEntry {
     /** Get this item's sub-items, if it has any. */
     fun children(): List<DirEntry> =
         when (this) {
-            is Dir -> value.entries
+            is Dir -> value.entries()
             is File -> emptyList()
         }
 }
