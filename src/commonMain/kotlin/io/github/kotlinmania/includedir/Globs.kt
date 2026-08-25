@@ -50,7 +50,7 @@ class Globs internal constructor(
 
     companion object {
         fun new(pattern: Pattern, root: Dir): Globs {
-            val stack = root.entries().toMutableList()
+            val stack = root.entries.toMutableList()
             return Globs(stack, pattern)
         }
     }

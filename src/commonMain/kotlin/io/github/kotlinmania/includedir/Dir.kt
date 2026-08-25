@@ -13,15 +13,6 @@ data class Dir(
     val path: String,
     val entries: List<DirEntry>,
 ) {
-    /**
-     * The full path for this [Dir], relative to the directory passed to
-     * the embedding entry point.
-     */
-    fun path(): String = path
-
-    /** The entries within this [Dir]. */
-    fun entries(): List<DirEntry> = entries
-
     /** Get a list of the files in this directory. */
     fun files(): Sequence<File> =
         entries.asSequence().mapNotNull { it.asFile() }

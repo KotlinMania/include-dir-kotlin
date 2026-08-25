@@ -17,15 +17,6 @@ class File(
      */
     val metadata: Metadata? = null,
 ) {
-    /**
-     * The full path for this [File], relative to the directory passed to
-     * the embedding entry point.
-     */
-    fun path(): String = path
-
-    /** The file's raw contents. */
-    fun contents(): ByteArray = contents
-
     /** The file's contents interpreted as a string. */
     fun contentsUtf8(): String? =
         try {
@@ -36,9 +27,6 @@ class File(
 
     /** Set the [Metadata] associated with a [File]. */
     fun withMetadata(metadata: Metadata): File = File(path, contents, metadata)
-
-    /** Get the [File]'s [Metadata], if available. */
-    fun metadata(): Metadata? = metadata
 
     /** Formats debug output for [File]. */
     fun fmt(): String = toString()
