@@ -48,3 +48,7 @@ package io.github.kotlinmania.includedir
 //
 // Callers migrated:
 //   (none yet)
+
+// This file tracks the upstream src/lib.rs module structure.
+// Upstream re-exports are satisfied by direct imports from this package.
+internal const val LIB_MODULE = "include_dir"

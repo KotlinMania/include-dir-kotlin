@@ -26,11 +26,12 @@ class File(
     val metadata: Metadata? = null,
 ) {
     /** The file's contents interpreted as a string. */
-    fun contentsUtf8(): String? = try {
-        contents.decodeToString(throwOnInvalidSequence = true)
-    } catch (_: CharacterCodingException) {
-        null
-    }
+    fun contentsUtf8(): String? =
+        try {
+            contents.decodeToString(throwOnInvalidSequence = true)
+        } catch (_: CharacterCodingException) {
+            null
+        }
 
     /** Set the [Metadata] associated with a [File]. */
     fun withMetadata(metadata: Metadata): File = File(path, contents, metadata)
