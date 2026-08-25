@@ -1,10 +1,8 @@
-// port-lint: source src/dir_entry.rs
+// port-lint: source dir_entry.rs
 package io.github.kotlinmania.includedir
 
 /**
- * A directory entry, the embedded analogue of a filesystem directory entry.
- *
- * Upstream Rust derived `Debug, Clone, PartialEq` on this type.
+ * A directory entry, roughly analogous to a filesystem directory entry.
  */
 sealed class DirEntry {
     /** A directory. */

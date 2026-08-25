@@ -1,12 +1,8 @@
-// port-lint: source src/file.rs
+// port-lint: source file.rs
 package io.github.kotlinmania.includedir
 
 /**
  * A file with its contents stored in a [ByteArray].
- *
- * Upstream Rust derived `Clone, PartialEq, Eq` on this type and provided a
- * hand-written `Debug` impl that elides the file body in favor of a byte-count
- * summary.
  */
 class File(
     /**
@@ -18,10 +14,6 @@ class File(
     val contents: ByteArray,
     /**
      * The [Metadata] associated with this [File], if available.
-     *
-     * Upstream Rust gates this field on `feature = "metadata"`. The Kotlin port
-     * keeps the field present and nullable; callers that do not embed metadata
-     * leave it `null`.
      */
     val metadata: Metadata? = null,
 ) {
@@ -35,6 +27,9 @@ class File(
 
     /** Set the [Metadata] associated with a [File]. */
     fun withMetadata(metadata: Metadata): File = File(path, contents, metadata)
+
+    /** Formats debug output for [File]. */
+    fun fmt(): String = toString()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -53,4 +48,9 @@ class File(
 
     override fun toString(): String =
         "File(path=$path, contents=<${contents.size} bytes>, metadata=$metadata)"
+
+    companion object {
+        /** Create a new [File]. */
+        fun new(path: String, contents: ByteArray): File = File(path, contents)
+    }
 }
