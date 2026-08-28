@@ -65,6 +65,7 @@ data class Dir(
                     entry.value.extract(basePath)
                 }
                 is DirEntry.File -> {
+                    target.parent?.let { SystemFileSystem.createDirectories(it) }
                     SystemFileSystem.sink(target).buffered().use { sink ->
                         sink.write(entry.value.contents)
                     }
