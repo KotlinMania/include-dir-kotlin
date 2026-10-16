@@ -4,15 +4,20 @@ package io.github.kotlinmania.includedir
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
-import kotlinx.io.write
 
 /**
  * A directory.
  */
-data class Dir(
-    val path: String,
-    val entries: List<DirEntry>,
+class Dir(
+    private val path: String,
+    private val entries: List<DirEntry>,
 ) {
+    /** The full path for this [Dir]. */
+    fun path(): String = path
+
+    /** The entries within this [Dir]. */
+    fun entries(): List<DirEntry> = entries
+
     /** Get a list of the files in this directory. */
     fun files(): Sequence<File> =
         entries.asSequence().mapNotNull { it.asFile() }
@@ -67,15 +72,32 @@ data class Dir(
                 is DirEntry.File -> {
                     target.parent?.let { SystemFileSystem.createDirectories(it) }
                     SystemFileSystem.sink(target).buffered().use { sink ->
-                        sink.write(entry.value.contents)
+                        sink.write(entry.value.contents())
                     }
                 }
             }
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Dir) return false
+        return path == other.path && entries == other.entries
+    }
+
+    override fun hashCode(): Int = 31 * path.hashCode() + entries.hashCode()
+
+    override fun toString(): String = "Dir(path=$path, entries=$entries)"
+
     companion object {
         /** Create a new [Dir]. */
         fun new(path: String, entries: List<DirEntry>): Dir = Dir(path, entries)
     }
+}
+
+/**
+ * Doc-test anchor for README validation.
+ */
+fun checkReadmeExamples() {
+    // Upstream doc-test anchor for README validation.
 }

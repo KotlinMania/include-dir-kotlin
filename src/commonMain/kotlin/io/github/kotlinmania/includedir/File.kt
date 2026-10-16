@@ -5,18 +5,16 @@ package io.github.kotlinmania.includedir
  * A file with its contents stored in a [ByteArray].
  */
 class File(
-    /**
-     * The full path for this [File], relative to the directory passed to
-     * the embedding entry point.
-     */
-    val path: String,
-    /** The file's raw contents. */
-    val contents: ByteArray,
-    /**
-     * The [Metadata] associated with this [File], if available.
-     */
-    val metadata: Metadata? = null,
+    private val path: String,
+    private val contents: ByteArray,
+    private val metadata: Metadata? = null,
 ) {
+    /** The full path for this [File]. */
+    fun path(): String = path
+
+    /** The file's raw contents. */
+    fun contents(): ByteArray = contents
+
     /** The file's contents interpreted as a string. */
     fun contentsUtf8(): String? =
         try {
@@ -24,6 +22,9 @@ class File(
         } catch (_: CharacterCodingException) {
             null
         }
+
+    /** Get the [File]'s [Metadata], if available. */
+    fun metadata(): Metadata? = metadata
 
     /** Set the [Metadata] associated with a [File]. */
     fun withMetadata(metadata: Metadata): File = File(path, contents, metadata)

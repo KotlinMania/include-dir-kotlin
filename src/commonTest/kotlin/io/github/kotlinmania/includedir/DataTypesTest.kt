@@ -61,8 +61,8 @@ class DataTypesTest {
     @Test
     fun filesAndDirsSeparateDirectChildren() {
         val root = sampleTree()
-        val files = root.files().toList().map { it.path }
-        val dirs = root.dirs().toList().map { it.path }
+        val files = root.files().toList().map { it.path() }
+        val dirs = root.dirs().toList().map { it.path() }
         assertEquals(listOf("README.md"), files)
         assertEquals(listOf("src"), dirs)
     }
@@ -78,7 +78,7 @@ class DataTypesTest {
         val invalid = byteArrayOf(0xC3.toByte(), 0x28.toByte())
         val file = File("bad.bin", invalid)
         assertNull(file.contentsUtf8())
-        assertContentEquals(invalid, file.contents)
+        assertContentEquals(invalid, file.contents())
     }
 
     @Test
@@ -86,10 +86,10 @@ class DataTypesTest {
         val original = File("a.txt", "x".encodeToByteArray())
         val md = Metadata.new(1.seconds, 2.seconds, 3.seconds)
         val updated = original.withMetadata(md)
-        assertNull(original.metadata)
-        assertEquals(md, updated.metadata)
-        assertEquals(original.path, updated.path)
-        assertContentEquals(original.contents, updated.contents)
+        assertNull(original.metadata())
+        assertEquals(md, updated.metadata())
+        assertEquals(original.path(), updated.path())
+        assertContentEquals(original.contents(), updated.contents())
     }
 
     @Test

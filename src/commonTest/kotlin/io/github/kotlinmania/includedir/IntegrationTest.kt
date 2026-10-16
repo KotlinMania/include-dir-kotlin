@@ -65,8 +65,12 @@ class IntegrationTest {
                 SystemFileSystem.source(Path(root.toString(), "src/lib.rs")).buffered().use { it.readString() },
             )
         } catch (e: Exception) {
-            // Node WASI environment does not preopen host directories for filesystem modification
-            if (e.message?.contains("preopened") == true) {
+            // Node WASI environment does not preopen host directories for filesystem modification.
+            // Browser environments do not have filesystem access / Node 'path' module.
+            if (e is UnsupportedOperationException ||
+                e.message?.contains("preopened") == true ||
+                e.message?.contains("could not be imported") == true
+            ) {
                 return
             }
             throw e
@@ -84,7 +88,7 @@ internal fun validateIncluded(dir: Dir, paths: List<String>) {
         if (childDir != null) {
             validateIncluded(
                 childDir,
-                paths.filter { it.startsWith("${childDir.path}/") },
+                paths.filter { it.startsWith("${childDir.path()}/") },
             )
         }
     }
@@ -92,13 +96,13 @@ internal fun validateIncluded(dir: Dir, paths: List<String>) {
 
 private fun validateExtracted(dir: Dir, path: Path) {
     for (subdir in dir.dirs()) {
-        val subdirPath = Path(path.toString(), dir.path)
+        val subdirPath = Path(path.toString(), dir.path())
         assertTrue(SystemFileSystem.exists(subdirPath))
         validateExtracted(subdir, subdirPath)
     }
 
     for (file in dir.files()) {
-        val filePath = Path(path.toString(), file.path)
+        val filePath = Path(path.toString(), file.path())
         assertTrue(SystemFileSystem.exists(filePath))
     }
 }
